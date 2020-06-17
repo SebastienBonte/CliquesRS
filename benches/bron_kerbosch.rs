@@ -66,29 +66,29 @@ fn par(b: &mut Criterion, file: &str, name: &str) {
     group.finish();
 }
 
-fn seq_tiny(b: &mut Criterion) {
-    seq(b, "data/minimal.txt", "tiny");
-}
-
-fn par_tiny(b: &mut Criterion) {
-    par(b, "data/minimal.txt", "tiny");
-}
-
 fn seq_small(b: &mut Criterion) {
-    seq(b, "data/graph.txt", "small");
+    seq(b, "data/small.txt", "small");
 }
 
 fn par_small(b: &mut Criterion) {
-    par(b, "data/graph.txt", "small");
+    par(b, "data/small.txt", "small");
 }
 
 fn seq_medium(b: &mut Criterion) {
-    seq(b, "data/medium.txt", "medium");
+    seq(b, "data/com-amazon.ungraph.txt", "medium");
 }
 
 fn par_medium(b: &mut Criterion) {
-    par(b, "data/medium.txt", "medium");
+    par(b, "data/com-amazon.ungraph.txt", "medium");
 }
 
-criterion_group!(benches, seq_tiny, seq_small, seq_medium, par_tiny, par_small, par_medium);
+fn seq_big(b: &mut Criterion) {
+    seq(b, "data/com-youtube.ungraph.txt", "big");
+}
+
+fn par_big(b: &mut Criterion) {
+    par(b, "data/com-youtube.ungraph.txt", "big");
+}
+
+criterion_group!(benches, seq_small,par_small, seq_medium, par_medium, seq_big, par_big);
 criterion_main!(benches);
