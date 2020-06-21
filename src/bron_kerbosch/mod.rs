@@ -158,7 +158,7 @@ fn base_iter(
                 x.insert(node);
                 if np.is_empty() && nx.is_empty() {
                     if r.len() + 1 >= cliques.max_size
-                        && (opts.clique_size.is_none() || opts.clique_size.unwrap() >= r.len() + 1)
+                        && (opts.clique_size.is_none() || opts.clique_size.unwrap() > r.len())
                     {
                         r.push(node);
                         cliques += Report {
@@ -296,13 +296,12 @@ fn base_pool(
     stack: (Vec<Node>, Set, Set),
     pool: ThreadPool,
     sender: Sender<Report>,
-    get_list: Generator,
+    func: (Generator, Algorithm),
     opts: Options,
 ) {
     let (r, mut p, mut x) = stack;
-    let max_queue = pool.max_count() * 16;
     let mut report = Report::default();
-    for node in get_list(graph.clone(), &p, &x) {
+    for node in func.0(graph.clone(), &p, &x) {
         let neighbours: &Set = &graph[&node];
         let (mut nr, np, nx) = (r.clone(), &p & neighbours, &x & neighbours);
         nr.push(node);
@@ -318,13 +317,12 @@ fn base_pool(
             } else {
                 report.count += 1;
             }
-        } else if pool.queued_count() > max_queue {
-            let (graph, pool, sender) = (graph.clone(), pool.clone(), sender.clone());
-            base_pool(graph, (nr, np, nx), pool, sender, get_list, opts);
+        } else if nr.len() > 4 || np.len() < nx.len() {
+            report += func.1(graph.clone(), &mut nr, np, nx, opts);
         } else {
             let (graph, pc, sender) = (graph.clone(), pool.clone(), sender.clone());
             pool.execute(move || {
-                base_pool(graph, (nr, np, nx), pc, sender, get_list, opts);
+                base_pool(graph, (nr, np, nx), pc, sender, func, opts);
             });
         }
     }
@@ -335,9 +333,9 @@ fn base_pool(
 pub fn basic_pool(graph: Arc<Graph>, _: &mut Vec<Node>, p: Set, x: Set, opts: Options) -> Report {
     let pool = ThreadPool::new((opts.num_threads - 1).max(1));
     let (tx, rx) = bounded::<Report>(pool.max_count() * 1024);
-    let cloned_pool = pool.clone();
+    let cp = pool.clone();
     pool.execute(move || {
-        base_pool(graph, (vec![], p, x), cloned_pool, tx, get_list, opts);
+        base_pool(graph, (vec![], p, x), cp, tx, (get_list, basic), opts);
     });
     rx.iter().sum()
 }
@@ -352,9 +350,16 @@ pub fn basic_pool_pivot(
 ) -> Report {
     let pool = ThreadPool::new((opts.num_threads - 1).max(1));
     let (tx, rx) = bounded::<Report>(pool.max_count() * 1024);
-    let cloned_pool = pool.clone();
+    let cp = pool.clone();
     pool.execute(move || {
-        base_pool(graph, (vec![], p, x), cloned_pool, tx, get_pivot_list, opts);
+        base_pool(
+            graph,
+            (vec![], p, x),
+            cp,
+            tx,
+            (get_pivot_list, basic_pivot),
+            opts,
+        );
     });
     rx.iter().sum()
 }
