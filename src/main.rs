@@ -26,13 +26,15 @@ fn main() {
         .version(crate_version!()).author(crate_authors!())
         .about("Find maximal cliques using different algorithms")
         .arg(Arg::with_name("input-file").short('i').long("input-file")
-            .value_name("FILE").about("Set input-file. Use STDIN if absent"))
+            .value_name("file").about("Set input-file. Use standard input if absent"))
         .arg(Arg::with_name("alg").short('a').long("algorithm")
             .about("Choose which algorithm to run").takes_value(true)
             .multiple(true).use_delimiter(true)
             .possible_values(&FUNCS.iter().map(|(n, _, _)| n).copied().collect::<Vec<_>>()))
-        .arg("-t, --threads [number] 'Choose number of threads (> 0) for compatible algorithms (Defaults to number of processor cores)'")
-        .arg("-k, --max-cliques [number] 'Search maximum cliques of specific size'")
+        .arg("-t, --threads [threads] 'Choose number of threads (> 0) for compatible algorithms (Defaults to number of processor cores)'")
+        .arg("-k, --max-cliques [clique size] 'Search maximum cliques of specific size'")
+        .arg(Arg::with_name("num").short('n').long("repeat")
+            .about("Run a specific number of times (default: 1)").value_name("number"))         
         .arg("-v, --verbose")
         .get_matches();
 
@@ -56,7 +58,7 @@ fn main() {
         Some(file) => Arc::new(Graph::from_file(file)),
         None => Arc::new(Graph::from_stdin()),
     };
-
+    let repeat: usize = matches.value_of_t("num").unwrap_or(1);
     if options.verbose {
         println!("{:?}", graph);
     }
@@ -64,12 +66,20 @@ fn main() {
         Some(values) => {
             let values: Vec<_> = values.collect();
             for (name, alg, _) in FUNCS.iter().filter(|(name, _, _)| values.contains(name)) {
-                println!("{};{:?}", name, test_alg(graph.clone(), *alg, options));
+                print!("{}", name);
+                for _ in 0..repeat {
+                    print!(";{}", test_alg(graph.clone(), *alg, options).as_secs_f64());
+                }
+                println!();
             }
         }
         None => {
             for (name, alg, _) in FUNCS {
-                println!("{};{:?}", name, test_alg(graph.clone(), *alg, options));
+                print!("{}", name);
+                for _ in 0..repeat {
+                    print!(";{}", test_alg(graph.clone(), *alg, options).as_secs_f64());
+                }
+                println!(";");
             }
         }
     };
