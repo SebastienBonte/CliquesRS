@@ -66,20 +66,20 @@ fn main() {
         Some(values) => {
             let values: Vec<_> = values.collect();
             for (name, alg, _) in FUNCS.iter().filter(|(name, _, _)| values.contains(name)) {
-                print!("{}", name);
+                let mut out = String::from(*name);
                 for _ in 0..repeat {
-                    print!(";{}", test_alg(graph.clone(), *alg, options).as_secs_f64());
+                    out += &format!(";{}", test_alg(graph.clone(), *alg, options).as_secs_f64());
                 }
-                println!();
+                println!("{}", out);
             }
         }
         None => {
             for (name, alg, _) in FUNCS {
-                print!("{}", name);
+                let mut out = String::from(*name);
                 for _ in 0..repeat {
-                    print!(";{}", test_alg(graph.clone(), *alg, options).as_secs_f64());
+                    out += &format!(";{}", test_alg(graph.clone(), *alg, options).as_secs_f64());
                 }
-                println!(";");
+                println!("{}", out);
             }
         }
     };

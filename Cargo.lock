@@ -171,7 +171,7 @@ dependencies = [
 
 [[package]]
 name = "cliques-rs"
-version = "0.18.0"
+version = "0.18.1"
 dependencies = [
  "clap 3.0.0-beta.1",
  "criterion",
