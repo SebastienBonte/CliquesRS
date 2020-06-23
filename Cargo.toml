@@ -10,7 +10,7 @@ autobenches = false
 autobins = false
 
 [features]
-default = ["mimalloc", "rustc-hash", "csv", "rayon", "pool"]
+default = ["rustc-hash", "csv", "rayon", "pool"]
 pool = ["threadpool", "crossbeam-channel", "num_cpus"]
 
 [dependencies]

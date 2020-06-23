@@ -2,7 +2,7 @@
 pub struct Options {
     pub num_threads: usize,
     pub verbose: bool,
-    pub clique_size: Option<usize>
+    pub clique_size: Option<usize>,
 }
 
 impl Options {
@@ -10,7 +10,7 @@ impl Options {
         Options {
             num_threads: 1,
             verbose: false,
-            clique_size: None
+            clique_size: None,
         }
     }
 }
@@ -23,7 +23,7 @@ impl Default for Options {
             #[cfg(not(feature = "pool"))]
             num_threads: 1,
             verbose: false,
-            clique_size: None
+            clique_size: None,
         }
     }
 }

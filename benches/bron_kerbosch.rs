@@ -90,5 +90,5 @@ fn par_big(b: &mut Criterion) {
     par(b, "data/com-youtube.ungraph.txt", "big");
 }
 
-criterion_group!(benches, seq_small,par_small, seq_medium, par_medium, seq_big, par_big);
+criterion_group!(benches, seq_small, par_small, seq_medium, par_medium, seq_big, par_big);
 criterion_main!(benches);
