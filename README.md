@@ -1,6 +1,6 @@
 # CliquesRS
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
+![Rust](https://github.com/Heychsea/CliquesRS/workflows/Rust/badge.svg)
 
 Rust implementations of the Bron-Kerbosch algorithm 
 
