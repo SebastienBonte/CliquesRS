@@ -31,10 +31,10 @@ jobs:
 
   deploy-docs:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
+ #   if: github.ref == 'refs/heads/master'
     needs:
-      - test
+    - test
     steps:
-      - uses: actions/checkout@v2
-      - name: Create rustdoc
-        run: cargo doc
+    - uses: actions/checkout@v2
+    - name: Create rustdoc
+      run: cargo doc
