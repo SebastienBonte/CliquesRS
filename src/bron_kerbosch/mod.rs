@@ -456,7 +456,7 @@ fn mpi_base(
         let total_size = sizes.iter().sum();
         let mut max_cliques = vec![0 as Node; total_size];
         for process in (1..size).map(|x| world.process_at_rank(x)) {
-            if *&sizes[process.rank() as usize] == 0 {
+            if sizes[process.rank() as usize] == 0 {
                 continue;
             }
             process
