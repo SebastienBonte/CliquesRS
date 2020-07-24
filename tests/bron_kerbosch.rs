@@ -1,13 +1,15 @@
 use cliques_rs::bron_kerbosch::*;
 use std::sync::Arc;
 
+/// Tests that the Graph is properly initialised from the example file
 #[test]
 fn test_init_graph() {
-    let graph = Graph::from_file("./data/minimal.txt");
+    let graph: Graph = Graph::from_file("./data/minimal.txt");
     assert_eq!(graph.number_nodes(), 12);
     assert_eq!(graph.number_edges(), 10);
 }
 
+/// Base testing function to confirm an implementation returns the right results
 fn mini_tester(file: &str, count: usize, max_size: usize, fun: Algorithm) {
     let graph = Graph::from_file(file);
     let r: Set = graph.nodes().copied().collect();

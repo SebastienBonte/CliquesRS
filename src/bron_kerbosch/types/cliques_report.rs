@@ -7,6 +7,7 @@ use std::ops::{Add, AddAssign};
 #[cfg(feature = "mpi")]
 pub use std::convert::{From, TryFrom};
 
+/// Report data-structure (Number of maximal cliques, maximal size, cliques)
 #[derive(Debug, Clone)]
 pub struct Report<N = Node> {
     pub count: usize,
@@ -89,6 +90,7 @@ impl fmt::Display for Report {
     }
 }
 
+/// "Marshaling" method: Report -> Continuous data
 #[cfg(feature = "mpi")]
 impl<N> From<Report<N>> for Vec<usize> {
     fn from(report: Report<N>) -> Vec<usize> {
@@ -96,6 +98,7 @@ impl<N> From<Report<N>> for Vec<usize> {
     }
 }
 
+/// "Unmarshal" method: Continuous data -> Report
 #[cfg(feature = "mpi")]
 impl<N> TryFrom<Vec<usize>> for Report<N> {
     type Error = &'static str;
@@ -112,6 +115,7 @@ impl<N> TryFrom<Vec<usize>> for Report<N> {
     }
 }
 
+/// "Unmarshal" method: Continuous data -> Report
 #[cfg(feature = "mpi")]
 impl<N> TryFrom<&[usize]> for Report<N> {
     type Error = &'static str;

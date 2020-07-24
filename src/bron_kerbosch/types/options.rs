@@ -1,3 +1,4 @@
+/// Runtime options used by [`Algorithm`] functions
 #[derive(Copy, Clone)]
 pub struct Options {
     pub num_threads: usize,
@@ -16,6 +17,8 @@ impl Options {
 }
 
 impl Default for Options {
+    /// Default value for the Options type, default to all
+    /// available threads, no verbosity and no clique size limitation
     fn default() -> Self {
         Options {
             #[cfg(feature = "pool")]

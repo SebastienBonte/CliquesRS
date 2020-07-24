@@ -3,6 +3,7 @@ use criterion::measurement::WallTime;
 use criterion::{criterion_group, criterion_main, BenchmarkGroup, Criterion};
 use std::sync::Arc;
 
+/// List of implementations
 const FUNCS: &[(&str, Algorithm, bool)] = &[
     ("BK-Basic", basic, false),
     ("BK-BasicWithPivot", basic_pivot, false),
@@ -22,6 +23,7 @@ const FUNCS: &[(&str, Algorithm, bool)] = &[
     ("BK-BasicPoolWithPivot", basic_pool_pivot, true),
 ];
 
+/// Benchmark function
 fn bencher(
     c: &mut BenchmarkGroup<WallTime>,
     fun: Algorithm,
@@ -46,6 +48,7 @@ fn bencher(
     });
 }
 
+/// Specialised benchmark function for sequential algorithms
 fn seq(b: &mut Criterion, file: &str, name: &str) {
     let mut group = b.benchmark_group(format!("{}/{}/1", "Sequential", name));
     for (name, fun, _) in FUNCS.iter().filter(|(_, _, p)| !*p) {
@@ -54,6 +57,7 @@ fn seq(b: &mut Criterion, file: &str, name: &str) {
     group.finish();
 }
 
+/// Specialised benchmark function for parallel algorithms
 fn par(b: &mut Criterion, file: &str, name: &str) {
     let nb_threads = std::env::var("RAYON_NUM_THREADS")
         .unwrap_or_else(|_| "1".to_owned())

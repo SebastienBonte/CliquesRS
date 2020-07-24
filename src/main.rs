@@ -2,6 +2,7 @@ use clap::{crate_authors, crate_name, crate_version, App, Arg};
 use cliques_rs::bron_kerbosch::*;
 use std::sync::Arc;
 
+/// List of all implementations
 const FUNCS: &[(&str, Algorithm, bool)] = &[
     ("BK-Basic", basic, false),
     ("BK-BasicWithPivot", basic_pivot, false),
@@ -22,6 +23,7 @@ const FUNCS: &[(&str, Algorithm, bool)] = &[
 ];
 
 fn main() {
+    //  Used for arguments parsing and usage
     let matches = App::new(crate_name!())
         .version(crate_version!()).author(crate_authors!())
         .about("Find maximal cliques using different algorithms")
@@ -66,18 +68,22 @@ fn main() {
         Some(values) => {
             let values: Vec<_> = values.collect();
             for (name, alg, _) in FUNCS.iter().filter(|(name, _, _)| values.contains(name)) {
+                // Run each algorithm passed as argument n times
                 let mut out = String::from(*name);
                 for _ in 0..repeat {
                     out += &format!(";{}", test_alg(graph.clone(), *alg, options).as_secs_f64());
+                    // Returns time take by algorithm
                 }
                 println!("{}", out);
             }
         }
         None => {
             for (name, alg, _) in FUNCS {
+                // Run every algorithm n times
                 let mut out = String::from(*name);
                 for _ in 0..repeat {
                     out += &format!(";{}", test_alg(graph.clone(), *alg, options).as_secs_f64());
+                    // Returns time take by algorithm
                 }
                 println!("{}", out);
             }

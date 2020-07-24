@@ -3,11 +3,13 @@ use cliques_rs::bron_kerbosch::*;
 use std::sync::Arc;
 use std::time::{Duration, Instant};
 
+/// List of implementations
 const FUNCS: &[(&str, Algorithm)] = &[
     ("BK-BasicMPI", basic_mpi),
     ("BK-BasicMPIWithPivot", basic_mpi_pivot),
 ];
 
+/// Custom measuring method
 fn test_alg_mpi(nodes: Arc<Graph>, fun: Algorithm, options: Options) -> Duration {
     let start = Instant::now();
     let p: Set = nodes.nodes().cloned().collect();
@@ -16,6 +18,7 @@ fn test_alg_mpi(nodes: Arc<Graph>, fun: Algorithm, options: Options) -> Duration
 }
 
 fn main() {
+    //  Used for arguments parsing and usage
     let matches = App::new(crate_name!())
         .version(crate_version!())
         .author(crate_authors!())
@@ -52,6 +55,7 @@ fn main() {
     let value = matches.value_of("alg").unwrap();
 
     if let Some((name, alg)) = FUNCS.iter().find(|(name, _)| &value == name) {
-        println!("{}:{:?}", name, test_alg_mpi(graph, *alg, options));
+        // Run chosen algorithm
+        println!("{}:{:?}", name, test_alg_mpi(graph, *alg, options)); // Prints time take by algorithm and its name
     }
 }
