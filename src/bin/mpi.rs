@@ -24,7 +24,7 @@ fn main() {
         .author(crate_authors!())
         .about("Find maximal cliques using different algorithms")
         .arg(
-            Arg::with_name("input-file")
+            Arg::new("input-file")
                 .short('i')
                 .long("input-file")
                 .value_name("FILE")
@@ -32,7 +32,7 @@ fn main() {
                 .required(true),
         )
         .arg(
-            Arg::with_name("alg")
+            Arg::new("alg")
                 .short('a')
                 .long("algorithm")
                 .about("Choose which algorithm to run")
