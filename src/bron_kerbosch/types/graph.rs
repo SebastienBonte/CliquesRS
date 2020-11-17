@@ -7,9 +7,7 @@ use std::time::{Duration, Instant};
 
 #[cfg(feature = "rustc-hash")]
 pub use rustc_hash::{FxHashMap as HashMap, FxHashSet as HashSet};
-#[cfg(feature = "ahash")]
-pub use ahash::{AHashMap as HashMap, AHashSet as HashSet};
-#[cfg(not(any(feature = "rustc-hash", feature = "ahash")))]
+#[cfg(not(feature = "rustc-hash"))]
 pub use std::collections::{HashMap, HashSet};
 
 use std::fmt::Formatter;
