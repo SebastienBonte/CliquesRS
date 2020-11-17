@@ -5,9 +5,11 @@ use std::ops::Index;
 use std::str::FromStr;
 use std::time::{Duration, Instant};
 
-#[cfg(feature = "fasthash")]
+#[cfg(feature = "rustc-hash")]
 pub use rustc_hash::{FxHashMap as HashMap, FxHashSet as HashSet};
-#[cfg(not(feature = "fasthash"))]
+#[cfg(feature = "ahash")]
+pub use ahash::{AHashMap as HashMap, AHashSet as HashSet};
+#[cfg(not(any(feature = "rustc-hash", feature = "ahash")))]
 pub use std::collections::{HashMap, HashSet};
 
 use std::fmt::Formatter;
