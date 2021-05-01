@@ -1,6 +1,16 @@
 version: 2
 updates:
-  - package-ecosystem: "cargo" # See documentation for possible values
-    directory: "/" # Location of package manifests
-    schedule:
-      interval: "weekly"
+- package-ecosystem: cargo
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: mimalloc
+    versions:
+    - 0.1.23
+    - 0.1.24
+  - dependency-name: criterion
+    versions:
+    - 0.3.4
