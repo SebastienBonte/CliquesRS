@@ -31,7 +31,7 @@ fn main() {
             .value_name("file").about("Set input-file. Use standard input if absent"))
         .arg(Arg::new("alg").short('a').long("algorithm")
             .about("Choose which algorithm to run").takes_value(true)
-            .multiple(true).use_delimiter(true)
+            .multiple_values(true).use_delimiter(true)
             .possible_values(&FUNCS.iter().map(|(n, _, _)| n).copied().collect::<Vec<_>>()))
         .arg("-t, --threads [threads] 'Choose number of threads (> 0) for compatible algorithms (Defaults to number of processor cores)'")
         .arg("-k, --max-cliques [clique size] 'Search maximum cliques of specific size'")
