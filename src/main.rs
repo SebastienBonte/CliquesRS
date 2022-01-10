@@ -28,16 +28,17 @@ fn main() {
         .version(crate_version!()).author(crate_authors!())
         .about("Find maximal cliques using different algorithms")
         .arg(Arg::new("input-file").short('i').long("input-file")
-            .value_name("file").about("Set input-file. Use standard input if absent"))
+            .value_name("file").help("Set input-file. Use standard input if absent"))
         .arg(Arg::new("alg").short('a').long("algorithm")
-            .about("Choose which algorithm to run").takes_value(true)
+            .help("Choose which algorithm to run").takes_value(true)
             .multiple_values(true).use_delimiter(true)
             .possible_values(&FUNCS.iter().map(|(n, _, _)| n).copied().collect::<Vec<_>>()))
-        .arg("-t, --threads [threads] 'Choose number of threads (> 0) for compatible algorithms (Defaults to number of processor cores)'")
-        .arg("-k, --max-cliques [clique size] 'Search maximum cliques of specific size'")
+        .arg(Arg::new("threads").short('t').long("threads")
+            .help("Choose number of threads (> 0) for compatible algorithms (Defaults to number of processor cores)"))
+        .arg(Arg::new("clique size").short('k').long("max-cliques").help("Search maximum cliques of specific size"))
         .arg(Arg::new("num").short('n').long("repeat")
-            .about("Run a specific number of times (default: 1)").value_name("number"))         
-        .arg("-v, --verbose")
+            .help("Run a specific number of times (default: 1)").value_name("number"))         
+        .arg(Arg::new("verbose").short('v').long("verbose"))
         .get_matches();
 
     let mut options = Options::default();
