@@ -1,4 +1,4 @@
-use clap::{crate_authors, crate_name, crate_version, App, Arg};
+use clap::{crate_authors, crate_name, crate_version, Arg, Command};
 use cliques_rs::bron_kerbosch::*;
 use std::sync::Arc;
 
@@ -24,14 +24,14 @@ const FUNCS: &[(&str, Algorithm, bool)] = &[
 
 fn main() {
     //  Used for arguments parsing and usage
-    let matches = App::new(crate_name!())
+    let matches = Command::new(crate_name!())
         .version(crate_version!()).author(crate_authors!())
         .about("Find maximal cliques using different algorithms")
         .arg(Arg::new("input-file").short('i').long("input-file")
             .value_name("file").help("Set input-file. Use standard input if absent"))
         .arg(Arg::new("alg").short('a').long("algorithm")
             .help("Choose which algorithm to run").takes_value(true)
-            .multiple_values(true).use_delimiter(true)
+            .multiple_values(true).use_value_delimiter(true)
             .possible_values(&FUNCS.iter().map(|(n, _, _)| n).copied().collect::<Vec<_>>()))
         .arg(Arg::new("threads").short('t').long("threads")
             .help("Choose number of threads (> 0) for compatible algorithms (Defaults to number of processor cores)"))

@@ -1,8 +1,8 @@
 [package]
 name = "cliques-rs"
-version = "0.18.2"
+version = "0.19.0"
 authors = ["Hugo Cousin <hc73@hw.ac.uk>"]
-edition = "2018"
+edition = "2021"
 license = "MIT"
 repository = "https://github.com/Heychsea/CliquesRS"
 default-run = "cliques-rs"
@@ -15,19 +15,19 @@ pool = ["threadpool", "crossbeam-channel", "num_cpus"]
 fxhash = ["rustc-hash"]
 
 [dependencies]
-rayon = { version = "^1.5.1", optional = true }
-csv = { version = "^1.1.6", optional = true }
-rustc-hash = { version ="^1.1.0", optional = true }
-mimalloc = { version = "^0.1.25", default-features = false, optional = true }
-jemallocator = { version = "^0.3.2", optional = true }
-clap = { version = "^3.0.10", default-features = false, features = [ "std", "cargo" ] }
-threadpool = { version = "^1.8.1", optional = true }
-crossbeam-channel = { version = "^0.5.2", optional = true }
-num_cpus = { version = "^1.13.1", optional = true }
-mpi = { version = "^0.5.4", optional = true }
+rayon = { version = "^1.5", optional = true }
+csv = { version = "^1.1", optional = true }
+rustc-hash = { version ="^1.1", optional = true }
+mimalloc = { version = "^0.1", default-features = false, optional = true }
+jemallocator = { version = "^0.3", optional = true }
+clap = { version = "^3.1", default-features = false, features = [ "std", "cargo" ] }
+threadpool = { version = "^1.8", optional = true }
+crossbeam-channel = { version = "^0.5", optional = true }
+num_cpus = { version = "^1.13", optional = true }
+mpi = { version = "^0.5", optional = true }
 
 [dev-dependencies]
-criterion = "^0.3.3"
+criterion = "^0.3"
 
 [profile.dev.package."cliques-rs"]
 opt-level = 2
