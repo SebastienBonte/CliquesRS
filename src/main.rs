@@ -43,7 +43,7 @@ fn main() {
 
     let mut options = Options::default();
     options.verbose = matches.is_present("verbose");
-    if let Ok(max) = matches.value_of_t("max-cliques") {
+    if let Ok(max) = matches.value_of_t("clique size") {
         options.clique_size = Some(max);
     }
     if matches.is_present("threads") {

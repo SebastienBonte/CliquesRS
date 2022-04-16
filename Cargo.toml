@@ -1,6 +1,6 @@
 [package]
 name = "cliques-rs"
-version = "0.19.0"
+version = "0.19.1"
 authors = ["Hugo Cousin <hc73@hw.ac.uk>"]
 edition = "2021"
 license = "MIT"
